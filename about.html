@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Rural AI School</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 18px;
+            box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #5a00da;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #5a00da;
+        }
+
+        .login-btn, .logout-btn {
+            padding: 8px 20px;
+            background: linear-gradient(45deg, #6a00ff, #00c8ff);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(45deg, #cc0000, #990000);
+        }
+
+        /* About Section */
+        .about-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .about-container h1 {
+            text-align: center;
+            font-size: 42px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-intro {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .about-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #5a00da;
+        }
+
+        .about-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Rural AI School</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="course.html">Courses</a></li>
+                <li><a href="popularCourses.html">Popular Courses</a></li>
+                <li><a href="teacher.html">Teachers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="chatbot/index.html">AI Tools</a></li>
+                <li><a href="share.html">Share</a></li>
+            </ul>
+            <a href="loginpage.html" class="login-btn" id="loginBtn">Login</a>
+            <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <script>
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (user) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+            } else {
+                if (loginBtn) loginBtn.style.display = 'block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            alert('Logged out successfully!');
+            checkLoginStatus();
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+    </script>
+
+    <section class="about-section">
+        <div class="about-container">
+            <h1>About Us</h1>
+            <p class="about-intro">
+                Welcome to <strong>AI-Powered Rural Education</strong> — a platform created to bring high-quality modern
+                learning to every corner of India. We believe that every student, regardless of background, deserves the best
+                teachers, interactive courses, and AI tools to boost their future.
+            </p>
+
+            <div class="about-grid">
+                <div class="about-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Mission">
+                    <h3>Our Mission</h3>
+                    <p>
+                        To make education accessible, personalized, and empowering using Artificial Intelligence and
+                        digital learning tools.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055646.png" alt="Vision">
+                    <h3>Our Vision</h3>
+                    <p>
+                        We aim to build a future where students from rural areas have the same opportunities as students
+                        in major cities — with skills in AI, ML, Web Development, and more.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Why Us">
+                    <h3>Why Choose Us?</h3>
+                    <p>
+                        Our teachers are experts, our courses are industry-ready, and our platform uses AI to guide you
+                        at every step. Study smarter, not harder!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

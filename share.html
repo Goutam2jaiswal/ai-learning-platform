@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share This Website</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* ===== Navigation ===== */
+        header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 18px;
+            box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+            margin: -40px -20px 20px -20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .login-btn, .logout-btn {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .logout-btn {
+            background: rgba(255, 68, 68, 0.6);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 68, 68, 0.8);
+        }
+
+        /* ===== Background Style ===== */
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #6a5af9, #c86cf9, #ff7ce5);
+            background-size: 300% 300%;
+            animation: gradientMove 8s infinite ease-in-out;
+            color: #fff;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        /* ===== Glassmorphic Container ===== */
+        .share-box {
+            max-width: 650px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .share-box h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+        }
+
+        .share-box p {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+
+        /* ===== Button Grid ===== */
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Button Colors */
+        .whatsapp {
+            background: #25D366;
+        }
+
+        .facebook {
+            background: #1877F2;
+        }
+
+        .telegram {
+            background: #0088CC;
+        }
+
+        .twitter {
+            background: #1DA1F2;
+        }
+
+        .linkedin {
+            background: #0A66C2;
+        }
+
+        .email {
+            background: #ff9500;
+        }
+
+        .sms {
+            background: #4CAF50;
+        }
+
+        .copy {
+            background: #444;
+        }
+
+        .qrbtn {
+            background: #9b00ff;
+        }
+
+        /* ===== Floating Button ===== */
+        .float-share {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #ff2ed1;
+            padding: 16px 24px;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .float-share:hover {
+            transform: scale(1.08);
+        }
+
+        /* ===== QR Popup ===== */
+        #qrBox {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        #qrCode {
+            margin: auto;
+            width: 170px;
+            height: 170px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Rural AI School</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="course.html">Courses</a></li>
+                <li><a href="popularCourses.html">Popular Courses</a></li>
+                <li><a href="teacher.html">Teachers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="chatbot/index.html">AI Tools</a></li>
+                <li><a href="share.html">Share</a></li>
+            </ul>
+            <a href="loginpage.html" class="login-btn" id="loginBtn">Login</a>
+            <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <script>
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (user) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+            } else {
+                if (loginBtn) loginBtn.style.display = 'block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            alert('Logged out successfully!');
+            checkLoginStatus();
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+    </script>
+
+    <div class="share-box">
+        <h2>Share This Website</h2>
+        <p>Spread knowledge by sharing this learning website!</p>
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <button class="btn whatsapp" onclick="whatsapp()">WhatsApp</button>
+            <button class="btn facebook" onclick="facebook()">Facebook</button>
+            <button class="btn telegram" onclick="telegram()">Telegram</button>
+            <button class="btn twitter" onclick="twitter()">Twitter</button>
+            <button class="btn linkedin" onclick="linkedin()">LinkedIn</button>
+            <button class="btn email" onclick="emailShare()">Email</button>
+            <button class="btn sms" onclick="smsShare()">SMS</button>
+            <button class="btn copy" onclick="copyLink()">Copy Link</button>
+            <button class="btn qrbtn" onclick="showQR()">QR Code</button>
+        </div>
+
+        <!-- QR Popup -->
+        <div id="qrBox">
+            <h3>Scan to Open</h3>
+            <div id="qrCode"></div>
+        </div>
+    </div>
+
+    <!-- Floating Button -->
+    <div class="float-share" onclick="scrollToTop()">🔗 Share</div>
+
+    <script>
+        const site = "https://YOUR_WEBSITE_LINK_HERE";
+
+        /* ===== Share Functions ===== */
+        function whatsapp() { window.open("https://api.whatsapp.com/send?text=" + site); }
+        function facebook() { window.open("https://www.facebook.com/sharer/sharer.php?u=" + site); }
+        function telegram() { window.open("https://t.me/share/url?url=" + site); }
+        function twitter() { window.open("https://twitter.com/intent/tweet?url=" + site); }
+        function linkedin() { window.open("https://www.linkedin.com/shareArticle?url=" + site); }
+        function emailShare() { window.location.href = "mailto:?subject=Check this website&body=" + site; }
+        function smsShare() { window.location.href = "sms:?body=" + site; }
+
+        /* ===== Copy Link ===== */
+        function copyLink() {
+            navigator.clipboard.writeText(site);
+            alert("Link Copied!");
+        }
+
+        /* ===== QR Code ===== */
+        function showQR() {
+            document.getElementById("qrBox").style.display = "block";
+            new QRCode(document.getElementById("qrCode"), site);
+        }
+
+        /* ===== Floating Button Scroll ===== */
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    </script>
+
+</body>
+
+</html>

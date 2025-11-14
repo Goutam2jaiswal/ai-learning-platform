@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Teachers</title>
+
+    <style>
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #6a5cff, #8a8cff, #c2c3ff);
+            color: #fff;
+        }
+
+        /* Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 18px;
+            box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .login-btn, .logout-btn {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .logout-btn {
+            background: rgba(255, 68, 68, 0.6);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 68, 68, 0.8);
+        }
+
+        h1 {
+            text-align: center;
+            padding: 30px;
+            font-size: 40px;
+            font-weight: 700;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .teachers-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 40px 60px;
+        }
+
+        .teacher-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .teacher-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 4px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .teacher-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .teacher-subject {
+            font-size: 16px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .teacher-bio {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Rural AI School</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="course.html">Courses</a></li>
+                <li><a href="popularCourses.html">Popular Courses</a></li>
+                <li><a href="teacher.html">Teachers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="chatbot/index.html">AI Tools</a></li>
+                <li><a href="share.html">Share</a></li>
+            </ul>
+            <a href="loginpage.html" class="login-btn" id="loginBtn">Login</a>
+            <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <script>
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (user) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+            } else {
+                if (loginBtn) loginBtn.style.display = 'block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            alert('Logged out successfully!');
+            checkLoginStatus();
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+    </script>
+
+    <h1>Meet Our Best Teachers</h1>
+
+    <div class="teachers-container">
+
+        <!-- Teacher 1 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/3WfQGxW/teacher1.jpg" alt="Teacher">
+            <div class="teacher-name">Dr. Vishal Mehra</div>
+            <div class="teacher-subject">Mathematics</div>
+            <div class="teacher-bio">
+                Highly experienced mathematician with 15+ years of teaching advanced maths for board & competitive
+                exams.
+            </div>
+        </div>
+
+        <!-- Teacher 2 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/cb1SfFM/teacher2.jpg" alt="Teacher">
+            <div class="teacher-name">Ananya Sharma</div>
+            <div class="teacher-subject">Physics</div>
+            <div class="teacher-bio">
+                Expert in NEET/JEE physics, known for simplifying tough concepts with real-life examples.
+            </div>
+        </div>
+
+        <!-- Teacher 3 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/fNvZT0x/teacher3.jpg" alt="Teacher">
+            <div class="teacher-name">Prof. Rohan Kapoor</div>
+            <div class="teacher-subject">Chemistry</div>
+            <div class="teacher-bio">
+                Specialist in organic & physical chemistry with innovative teaching methods.
+            </div>
+        </div>
+
+        <!-- Teacher 4 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/9yjqWfH/teacher4.jpg" alt="Teacher">
+            <div class="teacher-name">Nisha Arora</div>
+            <div class="teacher-subject">English</div>
+            <div class="teacher-bio">
+                Passionate English teacher focusing on grammar, literature, and communication skills.
+            </div>
+        </div>
+
+        <!-- Teacher 5 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/ZLGbhrG/teacher5.jpg" alt="Teacher">
+            <div class="teacher-name">Dr. Aarav Malhotra</div>
+            <div class="teacher-subject">AI / Machine Learning</div>
+            <div class="teacher-bio">
+                PhD in AI, former Google researcher, teaches ML algorithms, neural networks, and real-world ML projects.
+            </div>
+        </div>
+
+        <!-- Teacher 6 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/kH0s6LV/teacher6.jpg" alt="Teacher">
+            <div class="teacher-name">Suhani Verma</div>
+            <div class="teacher-subject">Data Science</div>
+            <div class="teacher-bio">
+                Data analyst with 12+ years of experience in Python, machine learning, deep analytics & real datasets.
+            </div>
+        </div>
+
+        <!-- Teacher 7 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/YX7HjYy/teacher7.jpg" alt="Teacher">
+            <div class="teacher-name">Karan Patel</div>
+            <div class="teacher-subject">Web Development</div>
+            <div class="teacher-bio">
+                Full-stack developer teaching HTML, CSS, JavaScript, React, Node.js & modern web technologies.
+            </div>
+        </div>
+
+        <!-- Teacher 8 -->
+        <div class="teacher-card">
+            <img src="https://i.ibb.co/WfVtLTb/teacher8.jpg" alt="Teacher">
+            <div class="teacher-name">Simran Kaur</div>
+            <div class="teacher-subject">Biology</div>
+            <div class="teacher-bio">
+                Expert biology teacher for NEET with deep knowledge of zoology & botany.
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

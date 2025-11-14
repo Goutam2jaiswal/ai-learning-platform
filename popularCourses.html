@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses – Rural AI Education</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f3f5ff;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 18px;
+            box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #5a00da;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .login-btn, .logout-btn {
+            padding: 8px 20px;
+            background: linear-gradient(45deg, #6a00ff, #00c8ff);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(45deg, #cc0000, #990000);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 36px;
+            color: #333;
+        }
+
+        .course-container {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            text-align: center;
+            border-top: 5px solid transparent;
+        }
+
+        .course-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.18);
+            border-top: 5px solid #6a00ff;
+        }
+
+        .course-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #6a00ff;
+        }
+
+        .course-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .course-desc {
+            font-size: 15px;
+            color: #555;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Rural AI School</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="course.html">Courses</a></li>
+                <li><a href="popularCourses.html">Popular Courses</a></li>
+                <li><a href="teacher.html">Teachers</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="chatbot/index.html">AI Tools</a></li>
+                <li><a href="share.html">Share</a></li>
+            </ul>
+            <a href="loginpage.html" class="login-btn" id="loginBtn">Login</a>
+            <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <script>
+        // Check login status and update UI
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (user) {
+                // User is logged in
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+            } else {
+                // User is not logged in
+                if (loginBtn) loginBtn.style.display = 'block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('user');
+            alert('Logged out successfully!');
+            checkLoginStatus();
+            // Optionally redirect to home page
+            window.location.href = 'index.html';
+        }
+
+        // Check on page load
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+    </script>
+
+    <h1>Our Popular Courses</h1>
+
+    <div class="course-container">
+
+        <div class="course-card">
+            <div class="course-icon">📘</div>
+            <div class="course-title">Mathematics (Class 10)</div>
+            <div class="course-desc">Learn full NCERT maths with video lessons and practice tests.</div>
+        </div>
+
+        <div class="course-card">
+            <div class="course-icon">🧪</div>
+            <div class="course-title">Science (Physics · Chemistry · Biology)</div>
+            <div class="course-desc">Complete explanations, diagrams, and experiments.</div>
+        </div>
+
+        <div class="course-card">
+            <div class="course-icon">💻</div>
+            <div class="course-title">Computer Basics</div>
+            <div class="course-desc">Learn typing, MS Word, PowerPoint, and basic computer skills.</div>
+        </div>
+
+        <div class="course-card">
+            <div class="course-icon">🗣️</div>
+            <div class="course-title">English Speaking</div>
+            <div class="course-desc">Improve communication, grammar, and spoken confidence.</div>
+        </div>
+
+        <div class="course-card">
+            <div class="course-icon">🤖</div>
+            <div class="course-title">AI Basics</div>
+            <div class="course-desc">Understand AI, chatbots, and machine learning in simple words.</div>
+        </div>
+
+        <div class="course-card">
+            <div class="course-icon">🧑‍💻</div>
+            <div class="course-title">Coding for Beginners</div>
+            <div class="course-desc">Start with Python, HTML, CSS, and real beginner-friendly projects.</div>
+        </div>
+
+        <div class="course-card">
+            <div class="course-icon">📊</div>
+            <div class="course-title">Data Skills</div>
+            <div class="course-desc">Learn Excel, charts, formulas, and basic data analysis.</div>
+        </div>
+
+        <div class="course-card">
+            <div class="course-icon">🎨</div>
+            <div class="course-title">Graphic Designing</div>
+            <div class="course-desc">Create posters, thumbnails, and school projects using Canva.</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

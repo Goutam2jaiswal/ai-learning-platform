@@ -1,0 +1,648 @@
+<!-- ======================= UPDATED: Full Professional Multi-page Frontend ======================= -->
+
+<!--
+Files included in this single document for easy copy-paste:
+- index.html (Home)
+- login.html
+- courses.html
+- teachers.html
+- about.html
+- gallery.html
+- announcements.html
+- ai-tools.html
+- contact.html
+- dashboard.html (student dashboard demo)
+- assets: placeholder SVGs / icons
+- styles.css (single stylesheet)
+- app.js (shared JS for navigation, auth, interactions)
+
+Copy each section into its own file (or paste all into one HTML and serve via file://) — they are standalone pages linked together.
+-->
+
+<!-- ========== styles.css ========== -->
+    <style>
+  :root {
+    --bg-1: #f6f8ff;
+    --bg-2: #fff7fb;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --accent: #6d28d9;
+    --accent-2: #06b6d4;
+    --glass: rgba(255, 255, 255, 0.6);
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  }
+
+  * {
+    box-sizing: border-box
+  }
+
+        body {
+            margin: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+    background: linear-gradient(135deg, #fdfbff 0%, #ebf5ff 100%);
+    color: #0f172a
+  }
+
+  .container {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 24px
+        }
+
+        header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 0
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px
+  }
+
+  .logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12)
+  }
+
+  nav ul {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none
+  }
+
+  nav a {
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none
+  }
+
+  nav a.cta {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12)
+  }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 28px;
+    align-items: center;
+    margin-top: 18px
+  }
+
+  .hero h1 {
+    font-size: 38px;
+    line-height: 1.02;
+    margin: 0
+  }
+
+  .hero p {
+    color: var(--muted);
+    margin-top: 12px;
+    max-width: 56ch
+  }
+
+  .actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px
+  }
+
+  .btn {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 0;
+    font-weight: 700;
+    cursor: pointer
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--accent), #8b5cf6);
+    color: white;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12)
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(15, 23, 42, 0.06)
+  }
+
+  /* card */
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+            padding: 18px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(2, 6, 23, 0.04)
+  }
+
+  .search input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #eef2ff;
+    font-size: 15px
+  }
+
+  .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.02), transparent)
+  }
+
+  /* features & courses */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 22px
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 22px
+  }
+
+  .feat {
+    padding: 16px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff, #fbfdff);
+    border: 1px solid rgba(2, 6, 23, 0.03)
+  }
+
+  .course {
+    padding: 16px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff, #fffaf0);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(2, 6, 23, 0.04)
+  }
+
+  .course h4 {
+    margin: 0
+  }
+
+  .meta {
+    font-size: 13px;
+    color: var(--muted)
+  }
+
+  /* teachers */
+  .teacher {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #ffffff, #f9fbff)
+  }
+
+  .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fde68a, #fca5a5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #222
+  }
+
+  /* footer */
+  footer {
+    margin-top: 36px;
+    padding: 28px 0;
+    color: var(--muted);
+    text-align: center
+  }
+
+  /* responsive */
+  @media (max-width:980px) {
+    .hero {
+      grid-template-columns: 1fr
+    }
+
+    .grid-3,
+    .grid-4 {
+      grid-template-columns: repeat(2, 1fr)
+    }
+
+    nav ul {
+      display: none
+    }
+  }
+
+  @media (max-width:560px) {
+
+    .grid-3,
+    .grid-4 {
+      grid-template-columns: 1fr
+        }
+
+        .logo {
+      width: 48px;
+      height: 48px
+    }
+
+    .hero h1 {
+      font-size: 28px
+    }
+  }
+
+  /* small animations */
+  .fade-in {
+    animation: fadeInUp .6s ease both
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    to {
+      opacity: 1;
+      transform: none
+    }
+  }
+
+  /* dashboard styles (simple) */
+  .dashboard {
+            display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 20px
+  }
+
+  .sidebar {
+    background: linear-gradient(180deg, #fff, #fbfbff);
+    padding: 18px;
+    border-radius: 12px
+  }
+
+  .side-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    color: var(--muted);
+    text-decoration: none
+  }
+
+  .side-link.active {
+    background: linear-gradient(90deg, #eef2ff, #f3e8ff);
+    color: var(--accent)
+  }
+
+  .card-small {
+    padding: 12px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid rgba(2, 6, 23, 0.04)
+  }
+
+  /* form inputs */
+  input[type=text],
+  input[type=email],
+  input[type=password],
+  select,
+  textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #eef2ff;
+    width: 100%
+  }
+
+  textarea {
+    min-height: 120px
+        }
+    </style>
+
+
+<!-- ========== index.html ========== -->
+<main class="container">
+    <header>
+    <div class="brand">
+      <div class="logo">AI</div>
+      <div>
+        <div style="font-weight:800">EduAI</div>
+        <div style="font-size:13px;color:var(--muted)">Rural • Offline • Local</div>
+      </div>
+    </div>
+        <nav>
+       <ul>
+         <li><a href="index.html">Home</a></li>
+                <li><a href="course.html">Courses</a></li>
+         <li><a href="popularCourses.html">Popular Courses</a></li>
+                <li><a href="teacher.html">Teachers</a></li>
+                <li><a href="about.html">About</a></li>
+         <li><a href="chatbot/index.html">AI Tools</a></li>
+         <li><a href="share.html">Share</a></li>
+         <li><a href="loginpage.html" class="cta" id="loginBtn">Login</a></li>
+         <li><button class="cta" id="logoutBtn" style="display: none; border: none; background: linear-gradient(90deg, #ff4444, #cc0000); color: white; padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600;" onclick="logout()">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+  <section class="hero">
+    <div>
+      <h1 class="fade-in">Brain Pop </h1>
+      <p class="fade-in" style="margin-top:12px;color:var(--muted)">Short lessons, voice practice, exam prep and farming
+        tools — designed to work with low bandwidth and local languages.</p>
+      <div class="actions fade-in">
+        <a class="btn btn-primary" href="courses.html">Explore Courses</a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+
+      <div class="grid-3">
+        <div class="feat fade-in"><strong>Offline Packs</strong>
+          <div class="meta">Download lessons and share via local hotspot/USB.</div>
+        </div>
+        <div class="feat fade-in"><strong>Local Language</strong>
+          <div class="meta">Punjabi, Hindi, English and more.</div>
+        </div>
+        <div class="feat fade-in"><strong>Community Mentors</strong>
+          <div class="meta">Train local tutors and host group sessions.</div>
+        </div>
+      </div>
+        </div>
+
+    <aside class="card search">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:800">Find a course</div>
+          <div class="meta">Search skills or course name</div>
+        </div>
+        <div class="meta">Results</div>
+      </div>
+
+      <input id="searchInput" placeholder="Try 'AI', 'farming', 'english'" />
+      <div id="results" style="margin-top:12px"></div>
+
+      <div style="display:flex;justify-content:space-between;margin-top:12px">
+        <div class="meta">Avg lesson: 7–10 mins</div>
+        <div class="meta">Students: <strong style="color:var(--accent)">12,400+</strong></div>
+      </div>
+    </aside>
+  </section>
+
+  <section id="courses" style="margin-top:28px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2>Popular Courses</h2>
+      <div class="meta">Short, practical and localised.</div>
+    </div>
+    <div id="coursesGrid" class="grid-3"></div>
+  </section>
+
+  <section id="teachers" style="margin-top:28px">
+    <h2>Featured Mentors</h2>
+    <div class="grid-4">
+      <div class="teacher card">
+        <div class="avatar">K</div>
+        <div><strong>Mrs. Kavita</strong>
+          <div class="meta">Maths • 12 yrs</div>
+        </div>
+      </div>
+      <div class="teacher card">
+        <div class="avatar">A</div>
+        <div><strong>Aman Singh</strong>
+          <div class="meta">Agriculture • 7 yrs</div>
+        </div>
+      </div>
+      <div class="teacher card">
+        <div class="avatar">R</div>
+        <div><strong>Ritu Sharma</strong>
+          <div class="meta">English • 9 yrs</div>
+        </div>
+      </div>
+      <div class="teacher card">
+        <div class="avatar">H</div>
+        <div><strong>Dr. Harpreet</strong>
+          <div class="meta">Health • 10 yrs</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> EduAI — Built for low-connectivity communities. • <a href="contact.html">Contact</a>
+  </footer>
+</main>
+
+
+<!-- ========== courses.html ========== -->
+<!-- Copy the following into courses.html file -->
+<!--
+<!doctype html>
+<html>
+  <head>...include styles above...</head>
+  <body> ...
+-->
+<section style="display:none">
+  <h1>Courses page (see separate file)</h1>
+</section>
+
+
+<!-- ========== login.html ========== -->
+<!-- Copy to login.html -->
+<section style="display:none">
+  <h1>Login page (see separate file)</h1>
+</section>
+
+
+<!-- ========== dashboard.html (simple student dashboard demo) ========== -->
+<!-- Copy to dashboard.html to view student area after login -->
+<section style="display:none">
+  <h1>Dashboard (see separate file)</h1>
+</section>
+
+
+<!-- ========== Shared JS (app.js) ========== -->
+<script>
+  // Shared client-side app code: renders course cards, search, simple auth (localStorage), and a mock dashboard link
+  const COURSES = [
+    { id: 1, title: 'Digital Literacy', lang: ['en', 'hi'], level: 'Beginner', length: '6 weeks', desc: 'Basics of smartphones, messaging and internet safety.' },
+    { id: 2, title: 'AI for Agriculture', lang: ['en', 'pa'], level: 'Intermediate', length: '8 weeks', desc: 'Crop planning, pest recognition and low-cost sensors.' },
+    { id: 3, title: 'Spoken English', lang: ['en'], level: 'All', length: '10 weeks', desc: 'Conversation practice with voice-guided lessons.' },
+    { id: 4, title: 'Exam Prep — Class 12', lang: ['hi', 'en'], level: 'All', length: '12 weeks', desc: 'CBSE-focused mock tests.' },
+    { id: 5, title: 'Basic Coding — Python', lang: ['en', 'hi'], level: 'Beginner', length: '8 weeks', desc: 'Programming fundamentals with simple exercises.' },
+    { id: 6, title: 'Financial Literacy', lang: ['hi', 'pa'], level: 'Beginner', length: '5 weeks', desc: 'Money management, banking and payments.' },
+    { id: 7, title: 'Entrepreneurship Basics', lang: ['en', 'hi'], level: 'All', length: '6 weeks', desc: 'Start small businesses and marketing.' },
+    { id: 8, title: 'First Aid & Health', lang: ['hi', 'pa'], level: 'All', length: '4 weeks', desc: 'Essential first-aid and hygiene.' }
+  ];
+
+  function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }
+
+  function renderCoursesGrid() {
+    const grid = document.getElementById('coursesGrid');
+    if (!grid) return;
+    grid.innerHTML = COURSES.map(c => `
+    <div class="course card fade-in">
+      <div>
+        <div class="meta">${escapeHtml(c.level)} • ${escapeHtml(c.length)}</div>
+        <h4>${escapeHtml(c.title)}</h4>
+        <div class="meta" style="margin-top:8px">${escapeHtml(c.desc)}</div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+        <button class="btn btn-ghost" onclick="preview(${c.id})">Preview</button>
+        <button class="btn btn-primary" onclick="enroll(${c.id})">Enroll</button>
+      </div>
+    </div>
+  `).join('');
+  }
+
+  function preview(id) { const c = COURSES.find(x => x.id === id); alert(c.title + '\n\n' + c.desc) }
+  function enroll(id) {
+    const user = JSON.parse(localStorage.getItem('edu_user') || 'null');
+    const c = COURSES.find(x => x.id === id);
+    if (!user) { if (confirm('You must login to enroll. Go to login page?')) window.location.href = 'login.html'; return }
+    alert('Enrolled (mock): ' + c.title + '\nStudent: ' + user.name);
+  }
+
+  // search
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) { searchInput.addEventListener('input', (e) => { const q = e.target.value.trim().toLowerCase(); const matched = COURSES.filter(c => (c.title + ' ' + c.desc).toLowerCase().includes(q)); const results = document.getElementById('results'); if (!matched.length) results.innerHTML = '<div class="meta">No courses found.</div>'; else results.innerHTML = matched.map(c => `<div class="result-item"><div><strong>${escapeHtml(c.title)}</strong><div class="meta">${escapeHtml(c.length)} • ${escapeHtml(c.level)}</div></div><div style="display:flex;gap:6px"><button class="btn btn-ghost" onclick="preview(${c.id})">Preview</button><button class="btn btn-primary" onclick="enroll(${c.id})">Enroll</button></div></div>`).join(''); }) }
+
+  // simple login form on login.html
+  function initLoginPage() {
+    const form = document.querySelector('.login-form');
+    if (!form) return;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.querySelector('input[name="name"]').value.trim();
+      const contact = form.querySelector('input[name="contact"]').value.trim();
+      if (!name || !contact) { alert('Please enter name and contact'); return }
+      // mock auth: save user to localStorage
+      const user = { name, contact, loggedAt: new Date().toISOString() };
+      localStorage.setItem('edu_user', JSON.stringify(user));
+      alert('Login successful — welcome, ' + name);
+      window.location.href = 'dashboard.html';
+    })
+  }
+
+  // dashboard demo
+  function initDashboard() {
+    const el = document.getElementById('dashboardName');
+    const user = JSON.parse(localStorage.getItem('edu_user') || 'null');
+    if (el && user) el.textContent = user.name;
+    const logout = document.getElementById('logoutBtn'); if (logout) logout.addEventListener('click', () => { localStorage.removeItem('edu_user'); window.location.href = 'index.html'; })
+  }
+
+  // Check login status and update UI
+  function checkLoginStatus() {
+    const user = localStorage.getItem('user');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    if (user) {
+      if (loginBtn) loginBtn.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'block';
+    } else {
+      if (loginBtn) loginBtn.style.display = 'block';
+      if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+  }
+
+  // Logout function
+  function logout() {
+    localStorage.removeItem('user');
+    alert('Logged out successfully!');
+    checkLoginStatus();
+    window.location.href = 'index.html';
+  }
+
+  // attach on DOM ready
+  document.addEventListener('DOMContentLoaded', () => { 
+    renderCoursesGrid(); 
+    initLoginPage(); 
+    initDashboard(); 
+    checkLoginStatus();
+    document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear()); 
+  });
+</script>
+
+
+<!-- ========== login.html (copy content below into login.html) ========== -->
+<!--
+<!doctype html>
+<html>
+<head> include styles above </head>
+<body>
+-->
+<main class="container login-page" style="display:none">
+  <div class="card" style="max-width:520px;margin:40px auto;padding:28px">
+    <h2>Sign in to EduAI</h2>
+    <p class="meta">Enter your name and phone/email. This demo uses localStorage for auth.</p>
+    <form class="login-form" style="margin-top:16px;display:grid;gap:12px">
+      <input name="name" placeholder="Your name" required />
+      <input name="contact" placeholder="Phone or email" required />
+      <div style="display:flex;gap:8px"><button class="btn btn-primary" type="submit">Sign in</button><a
+          href="index.html" class="btn btn-ghost">Back</a></div>
+    </form>
+  </div>
+</main>
+
+
+<!-- ========== dashboard.html (simple demo) ========== -->
+<!--
+Copy to dashboard.html
+-->
+<main class="container" style="display:none">
+  <div class="dashboard">
+    <aside class="sidebar card">
+      <div style="font-weight:800;margin-bottom:12px">Welcome</div>
+      <div id="dashboardName" style="font-size:16px;margin-bottom:6px"></div>
+      <nav style="display:flex;flex-direction:column;gap:6px">
+        <a class="side-link active" href="#">My Courses</a>
+        <a class="side-link" href="#">Messages</a>
+        <a class="side-link" href="#">Progress</a>
+        <a class="side-link" id="logoutBtn">Logout</a>
+      </nav>
+    </aside>
+    <section>
+      <div class="card-small">
+        <h3>My Courses</h3>
+        <div class="meta">You are enrolled in <strong>2</strong> courses (demo)</div>
+      </div>
+      <div style="height:18px"></div>
+      <div class="card-small">
+        <h3>Suggestions</h3>
+        <div class="meta">Try 'Spoken English' or 'AI for Agriculture' to boost local skills.</div>
+      </div>
+    </section>
+  </div>
+</main>
+
+
+<!-- ========== Other pages (about, teachers, courses, gallery, announcements, contact, ai-tools) ==========
+Create simple pages that include the same stylesheet and a header/nav (as in index.html). Use the sample components above for layout.
+-->
+
+<!-- End of document -->

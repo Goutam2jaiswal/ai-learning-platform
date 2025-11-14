@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AI Education</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #a78bfa, #7dd3fc, #fbcfe8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 350px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4a148c;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #7e22ce;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            background: #7e22ce;
+            color: white;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5b21b6;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+            color: #4a148c;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        .captcha-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #captcha {
+            font-weight: bold;
+            font-size: 22px;
+            padding: 5px 10px;
+            background: #f3e8ff;
+            border-radius: 6px;
+            color: #4a148c;
+            letter-spacing: 3px;
+        }
+
+        .refresh {
+            cursor: pointer;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div class="container" id="loginPage">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Enter Email">
+        <input type="password" id="loginPassword" placeholder="Enter Password">
+
+        <div class="captcha-box">
+            <span id="loginCaptcha"></span>
+            <span class="refresh" onclick="generateCaptcha('loginCaptcha')">🔄</span>
+        </div>
+
+        <input type="text" id="loginCaptchaInput" placeholder="Enter CAPTCHA">
+
+        <button onclick="login()">Login</button>
+
+        <div class="link" onclick="showPage('signupPage')">Create an Account</div>
+    </div>
+
+    <!-- SIGNUP PAGE -->
+    <div class="container" id="signupPage">
+        <h2>Signup</h2>
+        <input type="text" id="signupName" placeholder="Full Name">
+        <input type="email" id="signupEmail" placeholder="Email">
+        <input type="text" id="signupPhone" placeholder="Phone Number">
+        <input type="password" id="signupPassword" placeholder="Create Password">
+
+        <button onclick="signup()">Signup</button>
+
+        <div class="link" onclick="showPage('loginPage')">Already have an account?</div>
+    </div>
+
+    <script>
+        // Show pages
+        function showPage(pageId) {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("signupPage").style.display = "none";
+            document.getElementById(pageId).style.display = "block";
+        }
+
+        showPage("loginPage"); // default open login
+
+        // CAPTCHA generator
+        function generateCaptcha(id) {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let code = "";
+            for (let i = 0; i < 6; i++) {
+                code += chars[Math.floor(Math.random() * chars.length)];
+            }
+            document.getElementById(id).innerText = code;
+        }
+
+        generateCaptcha("loginCaptcha");
+
+        // HARDCODED CREDENTIALS
+        const HARDCODED_USERS = [
+            {
+                id: "1",
+                name: "Admin User",
+                email: "admin@example.com",
+                password: "admin123",
+                phone: "1234567890"
+            },
+            {
+                id: "2",
+                name: "Test User",
+                email: "test@example.com",
+                password: "test123",
+                phone: "9876543210"
+            },
+            {
+                id: "3",
+                name: "Student",
+                email: "student@example.com",
+                password: "student123",
+                phone: "5555555555"
+            }
+        ];
+
+        // SIGNUP SYSTEM (Simple validation, stores in localStorage)
+        function signup() {
+            const name = document.getElementById("signupName").value.trim();
+            const email = document.getElementById("signupEmail").value.trim();
+            const phone = document.getElementById("signupPhone").value.trim();
+            const password = document.getElementById("signupPassword").value.trim();
+
+            if (!name || !email || !phone || !password) {
+                alert("Please fill all fields!");
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address!");
+                return;
+            }
+
+            // Password validation
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long!");
+                return;
+            }
+
+            // Check if email already exists in hardcoded users
+            const existingUser = HARDCODED_USERS.find(u => u.email === email.toLowerCase());
+            if (existingUser) {
+                alert("User with this email already exists!");
+                return;
+            }
+
+            // Store in localStorage (optional, for demo purposes)
+            const newUser = {
+                id: Date.now().toString(),
+                name: name,
+                email: email.toLowerCase(),
+                phone: phone,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+
+            let localUsers = JSON.parse(localStorage.getItem('localUsers') || '[]');
+            localUsers.push(newUser);
+            localStorage.setItem('localUsers', JSON.stringify(localUsers));
+
+            alert("Account created successfully! Please login.");
+            
+            // Clear form
+            document.getElementById("signupName").value = '';
+            document.getElementById("signupEmail").value = '';
+            document.getElementById("signupPhone").value = '';
+            document.getElementById("signupPassword").value = '';
+            showPage('loginPage');
+        }
+
+        // LOGIN SYSTEM (Checks hardcoded credentials)
+        function login() {
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+            const captchaInput = document.getElementById("loginCaptchaInput").value.trim();
+            const captcha = document.getElementById("loginCaptcha").innerText;
+
+            if (captchaInput !== captcha) {
+                alert("Incorrect CAPTCHA!");
+                generateCaptcha("loginCaptcha");
+                document.getElementById("loginCaptchaInput").value = '';
+                return;
+            }
+
+            if (!email || !password) {
+                alert("Please enter email and password!");
+                return;
+            }
+
+            // Check hardcoded users first
+            let user = HARDCODED_USERS.find(u => 
+                u.email.toLowerCase() === email.toLowerCase() && u.password === password
+            );
+
+            // If not found in hardcoded, check localStorage
+            if (!user) {
+                const localUsers = JSON.parse(localStorage.getItem('localUsers') || '[]');
+                user = localUsers.find(u => 
+                    u.email.toLowerCase() === email.toLowerCase() && u.password === password
+                );
+            }
+
+            if (user) {
+                // Store user data in localStorage (without password)
+                const { password: _, ...userWithoutPassword } = user;
+                localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+                alert("Login successful! Welcome, " + user.name);
+                // Redirect to root index.html
+                window.location.href = "index.html";
+            } else {
+                alert("Invalid email or password!");
+                generateCaptcha("loginCaptcha");
+                document.getElementById("loginCaptchaInput").value = '';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

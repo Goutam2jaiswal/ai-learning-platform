@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Education – Courses</title>
+    <style>
+        /* ===== GLOBAL ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Poppins, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            min-height: 100vh;
+            padding: 30px;
+            color: #fff;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .top-nav {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            margin: -30px -30px 30px -30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .top-nav .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .top-nav .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .top-nav .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .top-nav .login-btn, .top-nav .logout-btn {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .top-nav .login-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .top-nav .logout-btn {
+            background: rgba(255, 68, 68, 0.6);
+        }
+
+        .top-nav .logout-btn:hover {
+            background: rgba(255, 68, 68, 0.8);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* ===== SUBJECT CARDS ===== */
+        .subject-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .subject-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== VIDEO SECTION ===== */
+        .video-section {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .back-btn {
+            background: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            color: #000;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .video-card:hover {
+            transform: scale(1.04);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .video-card img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="logo">Rural AI School</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="course.html">Courses</a></li>
+            <li><a href="popularCourses.html">Popular Courses</a></li>
+            <li><a href="teacher.html">Teachers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="chatbot/index.html">AI Tools</a></li>
+            <li><a href="share.html">Share</a></li>
+        </ul>
+        <a href="loginpage.html" class="login-btn" id="loginBtn">Login</a>
+        <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
+    </nav>
+
+    <script>
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (user) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+            } else {
+                if (loginBtn) loginBtn.style.display = 'block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            alert('Logged out successfully!');
+            checkLoginStatus();
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+    </script>
+
+    <header>
+        <h1>AI Powered Learning</h1>
+        <p>Select a subject to view 10 video lessons</p>
+    </header>
+
+    <!-- ========= SUBJECT SELECTION ========= -->
+    <div id="subjects" class="subject-container">
+
+        <div class="subject-card" onclick="openSubject('maths')">
+            <h2>Mathematics</h2>
+            <p>Algebra, Trigonometry, Calculus</p>
+        </div>
+
+        <div class="subject-card" onclick="openSubject('physics')">
+            <h2>Physics</h2>
+            <p>Mechanics, Electricity, Optics</p>
+        </div>
+
+        <div class="subject-card" onclick="openSubject('chemistry')">
+            <h2>Chemistry</h2>
+            <p>Organic, Inorganic, Physical</p>
+        </div>
+
+        <div class="subject-card" onclick="openSubject('english')">
+            <h2>English</h2>
+            <p>Grammar, Literature, Writing Skills</p>
+        </div>
+
+    </div>
+
+    <!-- ========= MATHS VIDEOS ========= -->
+    <div id="maths" class="video-section">
+        <span class="back-btn" onclick="goBack()">← Back</span>
+        <h2>Mathematics – Video Lessons</h2>
+
+        <div class="video-grid">
+            <!-- 10 video cards -->
+            <div class="video-card"><img src="https://img.youtube.com/vi/2eCbtCafZgI/hqdefault.jpg">
+                <h3>Intro to Algebra</h3>
+                <p>Basics of equations.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/8mVEGfH4s5g/hqdefault.jpg">
+                <h3>Linear Equations</h3>
+                <p>Solving variables.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/4EXNedimDMs/hqdefault.jpg">
+                <h3>Quadratic Equations</h3>
+                <p>Roots & formulas.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/QN0L5V8VxWI/hqdefault.jpg">
+                <h3>Trigonometry</h3>
+                <p>sin, cos, tan basics.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/sX6hZ3z0L2E/hqdefault.jpg">
+                <h3>Pythagoras</h3>
+                <p>Right triangles.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/2TI1LK1N1fA/hqdefault.jpg">
+                <h3>Calculus Intro</h3>
+                <p>Limits & derivatives.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/IM8F2J8gW9o/hqdefault.jpg">
+                <h3>Probability</h3>
+                <p>Events & outcomes.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/Y8QpDt5bjMw/hqdefault.jpg">
+                <h3>Statistics</h3>
+                <p>Mean, median, mode.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/oBu-pQG6sTY/hqdefault.jpg">
+                <h3>Coordinate Geometry</h3>
+                <p>Slope & distance.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/WqQn5nZ6C6o/hqdefault.jpg">
+                <h3>Mensuration</h3>
+                <p>Area & volume.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========= PHYSICS VIDEOS ========= -->
+    <div id="physics" class="video-section">
+        <span class="back-btn" onclick="goBack()">← Back</span>
+        <h2>Physics – Video Lessons</h2>
+
+        <div class="video-grid">
+            <div class="video-card"><img src="https://img.youtube.com/vi/11fKkFzs1G0/hqdefault.jpg">
+                <h3>Motion</h3>
+                <p>Velocity & displacement.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/Q8VQGBvN6Z4/hqdefault.jpg">
+                <h3>Newton’s Laws</h3>
+                <p>Force & inertia.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/Kv5qnG8nGx0/hqdefault.jpg">
+                <h3>Work & Energy</h3>
+                <p>Kinetic & potential energy.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/vV4bT8y5UAY/hqdefault.jpg">
+                <h3>Gravitation</h3>
+                <p>Gravity laws.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/8bTd6iU8Try/hqdefault.jpg">
+                <h3>Electricity</h3>
+                <p>Circuits & Ohm’s law.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/MNn9qKG2UFI/hqdefault.jpg">
+                <h3>Magnetism</h3>
+                <p>Magnetic fields.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/2J8E4BvPzTU/hqdefault.jpg">
+                <h3>Reflection</h3>
+                <p>Mirrors & images.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/wCEdSxOqYqs/hqdefault.jpg">
+                <h3>Refraction</h3>
+                <p>Lenses & bending.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/1kqGdbvUFKY/hqdefault.jpg">
+                <h3>Sound</h3>
+                <p>Waves & frequencies.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/t0bnEA2h1ZA/hqdefault.jpg">
+                <h3>Heat</h3>
+                <p>Temperature & transfer.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========= CHEMISTRY VIDEOS ========= -->
+    <div id="chemistry" class="video-section">
+        <span class="back-btn" onclick="goBack()">← Back</span>
+        <h2>Chemistry – Video Lessons</h2>
+
+        <div class="video-grid">
+            <div class="video-card"><img src="https://img.youtube.com/vi/oHgk7Y6I6Hk/hqdefault.jpg">
+                <h3>Atomic Structure</h3>
+                <p>Subatomic particles.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/ZhsQz2jO7sY/hqdefault.jpg">
+                <h3>Periodic Table</h3>
+                <p>Groups & periods.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/U8Hc2G4q02k/hqdefault.jpg">
+                <h3>Chemical Bonding</h3>
+                <p>Ionic & covalent.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/nF6fhhW1WAc/hqdefault.jpg">
+                <h3>Acids & Bases</h3>
+                <p>pH & neutralization.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/qx3AjwPp_Q0/hqdefault.jpg">
+                <h3>Organic Chemistry</h3>
+                <p>Carbon compounds.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/z3VzBkYOPsI/hqdefault.jpg">
+                <h3>Hydrocarbons</h3>
+                <p>Alkanes & alkenes.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/SUFH2I9SmQA/hqdefault.jpg">
+                <h3>Solutions</h3>
+                <p>Types & concentration.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/Ty9v3J3xzcE/hqdefault.jpg">
+                <h3>Thermochemistry</h3>
+                <p>Heat in reactions.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/8v7Zr5EkeY0/hqdefault.jpg">
+                <h3>Electrochemistry</h3>
+                <p>Redox reactions.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/95YnXmyfOu8/hqdefault.jpg">
+                <h3>Polymers</h3>
+                <p>Types & properties.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========= ENGLISH VIDEOS ========= -->
+    <div id="english" class="video-section">
+        <span class="back-btn" onclick="goBack()">← Back</span>
+        <h2>English – Video Lessons</h2>
+
+        <div class="video-grid">
+            <div class="video-card"><img src="https://img.youtube.com/vi/2oC8BrZBNJg/hqdefault.jpg">
+                <h3>Grammar Basics</h3>
+                <p>Parts of speech.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/jp4Vj8QmV6k/hqdefault.jpg">
+                <h3>Tenses</h3>
+                <p>12 tense forms.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/VAhE8qb-Yno/hqdefault.jpg">
+                <h3>Active & Passive</h3>
+                <p>Voice change rules.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/f8ajtVEL1z8/hqdefault.jpg">
+                <h3>Reported Speech</h3>
+                <p>Direct & indirect.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/CdAVX5FiWDE/hqdefault.jpg">
+                <h3>Vocabulary Boost</h3>
+                <p>Daily useful words.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/obJLzuTZC7I/hqdefault.jpg">
+                <h3>Spoken English</h3>
+                <p>Fluency training.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/2fUDaYQlmHQ/hqdefault.jpg">
+                <h3>Writing Skills</h3>
+                <p>Letters & essays.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/94k1s1r4VfA/hqdefault.jpg">
+                <h3>Reading</h3>
+                <p>Comprehension tips.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/Zuw4yA5I1Vs/hqdefault.jpg">
+                <h3>Literature</h3>
+                <p>Chapter explanations.</p>
+            </div>
+            <div class="video-card"><img src="https://img.youtube.com/vi/sfg6fK0JVf4/hqdefault.jpg">
+                <h3>Common Mistakes</h3>
+                <p>Fix grammar errors.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openSubject(id) {
+            document.getElementById("subjects").style.display = "none";
+            document.getElementById(id).style.display = "block";
+        }
+        function goBack() {
+            document.querySelectorAll(".video-section").forEach(s => s.style.display = "none");
+            document.getElementById("subjects").style.display = "grid";
+        }
+    </script>
+
+</body>
+
+</html>

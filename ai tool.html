@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Tools | Smart Learning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #f6d5f7, #fbe9d7);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .ai-box {
+            width: 90%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        select,
+        textarea,
+        button {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 15px;
+            border: none;
+            font-size: 15px;
+            outline: none;
+        }
+
+        select {
+            background: #fff;
+            border-left: 4px solid #ff7eb3;
+        }
+
+        textarea {
+            background: #fff;
+            height: 130px;
+            resize: none;
+            border-left: 4px solid #7afcff;
+        }
+
+        button {
+            background: #ff9cee;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ffbdf7;
+            transform: scale(1.03);
+        }
+
+        .output-box {
+            background: rgba(255, 255, 255, 0.65);
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 18px;
+            min-height: 120px;
+            color: #444;
+            font-size: 15px;
+            border-left: 4px solid #ffd56b;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ai-box">
+        <h2>✨ AI Learning Assistant</h2>
+
+        <select id="toolSelect">
+            <option value="ask">Ask Any Question</option>
+            <option value="summarize">Summarize Text</option>
+            <option value="translate">Translate to Hindi</option>
+            <option value="explain">Explain Like I'm 12</option>
+        </select>
+
+        <textarea id="userInput" placeholder="Type your question or text here..."></textarea>
+
+        <button onclick="useAI()">✨ Generate Answer</button>
+
+        <div class="output-box" id="output">Your AI answer will appear here...</div>
+    </div>
+
+    <script>
+        async function useAI() {
+            const tool = document.getElementById("toolSelect").value;
+            const text = document.getElementById("userInput").value;
+            const output = document.getElementById("output");
+
+            if (!text.trim()) {
+                output.textContent = "❗ Please type something first.";
+                return;
+            }
+
+            output.textContent = "⏳ Generating a smart answer...";
+
+            const API_KEY = "YOUR_OPENAI_KEY_HERE";
+
+            let prompt = "";
+
+            if (tool === "ask") prompt = text;
+            if (tool === "summarize") prompt = "Summarize this:\n" + text;
+            if (tool === "translate") prompt = "Translate this to Hindi:\n" + text;
+            if (tool === "explain") prompt = "Explain this like I'm 12:\n" + text;
+
+            try {
+                const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-3.5-turbo",
+                        messages: [{ role: "user", content: prompt }]
+                    })
+                });
+
+                const data = await response.json();
+                output.textContent = data.choices[0].message.content;
+
+            } catch (error) {
+                output.textContent = "⚠ Error: " + error;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
